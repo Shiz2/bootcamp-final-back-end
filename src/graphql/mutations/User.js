@@ -1,47 +1,41 @@
-const User = require("../../models/User");
-const bcrypt = require("bcrypt");
-const config = require("../../../config");
-const jwt = require("jsonwebtoken");
-const _ = require("lodash");
+const User = require('../../models/User')
+const bcrypt = require('bcrypt')
+const config = require('../../../config')
+const jwt = require('jsonwebtoken')
+const _ = require('lodash')
 
 const createUser = async (obj, { input }) => {
-  const registerInput = _.pick(input, ["name", "email"]);
+  const registerInput = _.pick(input, ['name', 'email'])
 
-  const result = await User.query().findOne("email", input.email);
+  const result = await User.query().findOne('email', input.email)
 
   if (result) {
     return {
-      error: { message: "Email already exists!" }
-    };
+      error: { message: 'Email already exists!' },
+    }
   }
 
-  const hash = bcrypt.hashSync(input.password, config.saltRounds);
+  const hash = bcrypt.hashSync(input.password, config.saltRounds)
 
-  registerInput.password = hash;
+  registerInput.password = hash
 
-  // if (input.hobbies) {
-  //   registerInput.hobbies = input.hobbies.map(hobby => ({
-  //     hobby
-  //   }));
-  // }
-
-  const user = await User.query().insertWithRelatedAndFetch(registerInput);
+  const user = await User.query().insertWithRelatedAndFetch(registerInput)
 
   if (!user) {
     return {
-      error: { message: "There was an error registering your information." }
-    };
+      error: { message: 'There was an error registering your information.' },
+    }
   }
 
-  const payload = { id: user.id };
-  const token = jwt.sign(payload, config.tokenSecret);
+  const payload = { id: user.id }
+  const token = jwt.sign(payload, config.tokenSecret)
 
   return {
     user,
-    token
-  };
-};
+    token,
+  }
+}
 
-const resolver = { Mutation: { createUser } };
+const resolver = { Mutation: { createUser } }
 
-module.exports = resolver;
+module.exports = resolver

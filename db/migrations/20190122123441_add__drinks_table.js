@@ -14,6 +14,8 @@ exports.up = function(knex, Promise) {
       .timestamp('createdAt')
       .defaultTo(knex.fn.now())
       .notNull()
+
+    // table.specificType('coordinate', 'GEOMETRY').notNull()
   })
 }
 
