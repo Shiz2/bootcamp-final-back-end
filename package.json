@@ -37,7 +37,7 @@
     "setup-db": "createdb bootcampproject",
     "db": "psql -U postgres",
     "db-create-user": "createuser -P -s -e admin",
-    "postgis-install" : "brew install postgis"
+    "postgis-install": "brew install postgis"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
