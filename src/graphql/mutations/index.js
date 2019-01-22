@@ -1,9 +1,10 @@
 const merge = require('lodash.merge')
 
-const user = require('./user')
+const user = require('./User')
+const auth = require('./Auth')
 // const post = require('./post')
 // const friend = require('./friend')
 
-const resolvers = [user]
+const resolvers = [user, auth]
 
 module.exports = merge(...resolvers)

@@ -1,7 +1,7 @@
-const merge = require("lodash.merge");
+const merge = require('lodash.merge')
 
-const query = require("./Query");
+const query = require('./Query')
 
-const resolvers = [query];
+const resolvers = [query]
 
-module.exports = merge(...resolvers);
+module.exports = merge(...resolvers)

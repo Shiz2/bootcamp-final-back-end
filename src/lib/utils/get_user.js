@@ -1,5 +1,5 @@
 const { decodeToken } = require('../tokens')
-const knex = require('knex')
+const User = require('../../models/User.js')
 
 /**
  *
@@ -18,11 +18,9 @@ const getUser = async token => {
     // }
 
     const { id } = await decodeToken(token)
-    const user = await knex('user')
-      .select('id')
-      .where('id', id)
+    const user = await User.query()
+      .findById(id)
       .limit(1)
-      .then(rows => rows[0])
 
     if (!user) {
       throw new Error('invalid token')
