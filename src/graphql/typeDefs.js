@@ -36,6 +36,8 @@ module.exports = gql`
   input CreateDrinkInput {
     id: ID!
     drink: DrinkInput!
+    lat: Float!
+    long: Float!
     time: String!
   }
 
@@ -77,6 +79,6 @@ module.exports = gql`
 
   type DrinkType {
     id: ID!
-    type: String!
+    drink: DrinkTypes!
   }
 `

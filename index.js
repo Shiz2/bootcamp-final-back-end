@@ -48,18 +48,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// const typeDefs = gql`
-//   type Query {
-//     hello: String
-//   }
-// `
-
-// const resolvers = {
-//   Query: {
-//     hello: () => 'Hello world!',
-//   },
-// }
-
 // changed to new apollo server to allow for easy header provisions, tab creations, and prettiness :)
 const server = new ApolloServer({
   // typeDefs,

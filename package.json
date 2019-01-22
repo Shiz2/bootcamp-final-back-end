@@ -19,6 +19,7 @@
     "jsonwebtoken": "^8.2.2",
     "jwt-simple": "^0.5.5",
     "knex": "^0.15.2",
+    "knex-postgis": "^0.7.0",
     "lodash": "^4.17.10",
     "lodash.merge": "^4.6.1",
     "moment": "^2.22.1",
