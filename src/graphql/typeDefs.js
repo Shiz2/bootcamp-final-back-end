@@ -2,23 +2,20 @@ const gql = require('graphql-tag')
 
 module.exports = gql`
   type Query {
-    user(email: String!): User!
-    # post(id: ID!): Post!
-    # posts: [Post!]
-    # friend(id: ID!): [User!]
+    user(id: ID!): UserQueryReturn!
   }
 
   type Mutation {
     createUser(input: CreateUserInput!): LoginReturn!
     createDrink(input: CreateDrinkInput!): CreateDrinkReturn!
-    loginUser(email: String!, password: String!): LoginReturn!
-    # friendLink(followId: ID!, followingId: ID!): FriendReturn!
+    loginUser(input: LoginInput!): LoginReturn!
   }
 
-  # type FriendReturn {
-  #   friend: Friend
-  #   error: Error
-  # }
+  type UserQueryReturn {
+    error: Error
+    success: Boolean
+    user: User
+  }
 
   type CreateDrinkReturn {
     drink: Drink
@@ -27,6 +24,11 @@ module.exports = gql`
 
   input CreateUserInput {
     name: String!
+    email: String!
+    password: String!
+  }
+
+  input LoginInput {
     email: String!
     password: String!
   }
@@ -47,7 +49,7 @@ module.exports = gql`
     id: ID!
     name: String!
     email: String!
-    drinks: [Drink!]!
+    drinks: [Drink]!
   }
 
   type Drink {
@@ -57,13 +59,8 @@ module.exports = gql`
     createdAt: String!
   }
 
-  #   type Friend {
-  #     id: ID!
-  #     followingId: ID!
-  #     followerId: ID!
-  #   }
-
   type LoginReturn {
+    success: Boolean!
     user: User
     token: String
     error: Error
@@ -82,6 +79,6 @@ module.exports = gql`
 
   type DrinkType {
     id: ID!
-    drink: DrinkType!
+    drink: DrinkTypes!
   }
 `

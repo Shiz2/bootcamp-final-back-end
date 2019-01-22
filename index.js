@@ -1,14 +1,13 @@
 const express = require('express')
-const { createServer } = require('http')
-const { ApolloServer, gql } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server-express')
 const { Model } = require('objection')
 const Knex = require('knex')
+const schema = require('./src/graphql')
+const { getUser } = require('./src/lib/utils/get_user')
 
 const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
 
 const knexfile = require('./knexfile')
-const { tokenSecret, port } = require('./config')
 
 const knex = Knex(knexfile.development)
 Model.knex(knex)
@@ -49,35 +48,22 @@ app.use((req, res, next) => {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-}
-
 // changed to new apollo server to allow for easy header provisions, tab creations, and prettiness :)
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  // schema,
-  // context: async ({ req }) => {
-  //   if (!req) {
-  //     return { }
-  //   }
-  //   const token = req.headers ? req.headers.authorization: undefined
-  //   if (token) {
-  //     const decoded = jwt.verify(token, tokenSecret)
-  //     const user = await User.query().findById(decoded.id)
-  //     return  { user }
-  //   }
-  //   return { }
-  // }
+  // typeDefs,
+  // resolvers,
+  schema,
+  context: async ({ req }) => {
+    if (!req) {
+      return {}
+    }
+    const token = req.headers ? req.headers.authorization : undefined
+    if (token) {
+      const user = await getUser(token)
+      return { user }
+    }
+    return {}
+  },
 })
 
 server.applyMiddleware({ app })
