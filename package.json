@@ -35,8 +35,9 @@
     "reset": "node index.js --force",
     "copy-env": "cp sample.env .env",
     "setup-db": "createdb bootcampproject",
-    "db": "psql -U selakasepa",
-    "db-create-user": "createuser -P -s -e admin"
+    "db": "psql -U postgres",
+    "db-create-user": "createuser -P -s -e admin",
+    "postgis-install" : "brew install postgis"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
