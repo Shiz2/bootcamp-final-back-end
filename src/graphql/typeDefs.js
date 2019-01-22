@@ -1,4 +1,4 @@
-const gql = require("graphql-tag");
+const gql = require('graphql-tag')
 
 module.exports = gql`
   type Query {
@@ -15,10 +15,10 @@ module.exports = gql`
     # friendLink(followId: ID!, followingId: ID!): FriendReturn!
   }
 
-  type FriendReturn {
-    friend: Friend
-    error: Error
-  }
+  # type FriendReturn {
+  #   friend: Friend
+  #   error: Error
+  # }
 
   type CreateDrinkReturn {
     drink: Drink
@@ -34,6 +34,8 @@ module.exports = gql`
   input CreateDrinkInput {
     id: ID!
     drink: DrinkInput!
+    lat: Float!
+    long: Float!
     time: String!
   }
 
@@ -80,6 +82,6 @@ module.exports = gql`
 
   type DrinkType {
     id: ID!
-    hobby: Drinks!
+    drink: DrinkType!
   }
-`;
+`
