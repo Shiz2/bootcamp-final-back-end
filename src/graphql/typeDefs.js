@@ -10,6 +10,8 @@ module.exports = gql`
       type: DrinkTypes
       date: TimeStamp
     ): DrinksQueryReturn!
+    drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
+    number(type: DrinkTypes, time: Times): NumberQueryReturn!
   }
 
   input Location {
@@ -17,6 +19,21 @@ module.exports = gql`
     minLat: String
     maxLong: String
     maxLat: String
+  }
+
+  type NumberQueryReturn {
+    error: Error
+    success: Boolean
+    number: Int
+  }
+
+  enum Times {
+    HOUR
+    DAY
+    WEEK
+    MONTH
+    YEAR
+    ALL
   }
 
   type Mutation {
@@ -60,13 +77,9 @@ module.exports = gql`
   }
 
   input CreateDrinkInput {
-    type: DrinkInput!
+    type: DrinkTypes!
     lat: Float!
     long: Float!
-  }
-
-  input DrinkInput {
-    drink: DrinkTypes!
   }
 
   type User {
