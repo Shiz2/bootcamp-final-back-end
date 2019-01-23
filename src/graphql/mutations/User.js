@@ -22,7 +22,6 @@ const createUser = async (obj, { input }) => {
 
   const hash = await passwords.encryptPassword(input.password)
 
-
   registerInput.password = hash
 
   const user = await User.query().insertWithRelatedAndFetch(registerInput)
@@ -35,7 +34,6 @@ const createUser = async (obj, { input }) => {
   }
 
   const token = tokens.createToken(user.id)
-
 
   return {
     user,

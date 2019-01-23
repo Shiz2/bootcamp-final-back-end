@@ -2,8 +2,8 @@ const usersData = require('../../../Data/user')
 // const hobbiesData = require('../../../data/hobbies')
 const drinksData = require('../../../Data/drink')
 
-const createDrink = (knex, drink, name) => {
-  return knex('users')
+const createDrink = (knex, drink, name) =>
+  knex('users')
     .where('name', name)
     .first()
     .then(user => {
@@ -17,7 +17,6 @@ const createDrink = (knex, drink, name) => {
         long,
       })
     })
-}
 
 // const createHobby = (knex, hobbyObj, name) => {
 //   return knex('users')
@@ -40,9 +39,7 @@ exports.seed = function(knex, Promise) {
       .del()
       // .then(() => knex('hobbies').del())
       .then(() => knex('drinks').del())
-      .then(() => {
-        return knex('users').insert(usersData)
-      })
+      .then(() => knex('users').insert(usersData))
       .then(() => {
         const drinksPromises = drinksData.map(drink =>
           createDrink(knex, drink, drink.name),

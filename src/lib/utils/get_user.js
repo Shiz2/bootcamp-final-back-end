@@ -29,7 +29,7 @@ const getUser = async token => {
     return user
   } catch (error) {
     console.error(error)
-    return error
+    return ''
   }
 }
 

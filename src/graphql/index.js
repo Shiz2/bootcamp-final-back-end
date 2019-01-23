@@ -4,6 +4,7 @@ const merge = require('lodash.merge')
 
 const mutations = require('./mutations')
 const types = require('./types')
+// const { TimeStamp } = require('./CustomScalars/timestamp_scalar')
 
 const protoResolvers = [mutations, types]
 

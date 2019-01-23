@@ -3,6 +3,8 @@ const gql = require('graphql-tag')
 module.exports = gql`
   type Query {
     user(id: ID!): UserQueryReturn!
+    drink(id: ID!): DrinkQueryReturn!
+    drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
   }
 
   type Mutation {
@@ -15,6 +17,18 @@ module.exports = gql`
     error: Error
     success: Boolean
     user: User
+  }
+
+  type DrinkQueryReturn {
+    error: Error
+    success: Boolean
+    drink: Drink
+  }
+
+  type DrinksQueryReturn {
+    error: Error
+    success: Boolean
+    drinks: [Drink]
   }
 
   type CreateDrinkReturn {
@@ -52,9 +66,10 @@ module.exports = gql`
 
   type Drink {
     id: ID!
-    type: DrinkType!
+    type: String!
     userId: ID!
-    createdAt: String!
+    createdAt: String
+    coordinates: String
   }
 
   type LoginReturn {

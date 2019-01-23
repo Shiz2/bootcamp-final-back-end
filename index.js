@@ -60,6 +60,9 @@ const server = new ApolloServer({
     const token = req.headers ? req.headers.authorization : undefined
     if (token) {
       const user = await getUser(token)
+      if (!user) {
+        return {}
+      }
       return { user }
     }
     return {}
