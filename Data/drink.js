@@ -14,6 +14,8 @@ casual.define('drink', (lat, long) => ({
     'Spencer',
   ]),
   coordinates: st.geomFromText(`Point(${lat} ${long})`, 4326),
+  lat,
+  long,
 }))
 
 const locations = [

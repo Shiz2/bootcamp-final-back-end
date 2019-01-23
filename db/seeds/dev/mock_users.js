@@ -7,12 +7,14 @@ const createDrink = (knex, drink, name) => {
     .where('name', name)
     .first()
     .then(user => {
-      const { id, type, coordinates } = drink
+      const { id, type, coordinates, lat, long } = drink
       return knex('drinks').insert({
         id,
         type,
         userId: user.id,
         coordinates,
+        lat,
+        long,
       })
     })
 }

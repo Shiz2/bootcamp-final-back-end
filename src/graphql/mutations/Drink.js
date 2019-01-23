@@ -1,14 +1,16 @@
 const User = require('../../models/User')
+const { st } = require('../../../knex-postgis')
+
 // const Drink = require('../../models/Drink')
 
-const createDrink = async (obj, { content }, context) => {
-  if (!context.user) {
-    return {
-      error: {
-        message: 'User not logged in',
-      },
-    }
-  }
+const createDrink = async (obj, { input }, context) => {
+  // if (!context.user) {
+  //   return {
+  //     error: {
+  //       message: 'User not logged in',
+  //     },
+  //   }
+  // }
 
   const user = await User.query()
     .where('id', context.user.id)
@@ -22,14 +24,21 @@ const createDrink = async (obj, { content }, context) => {
     }
   }
 
-  const drink = await user.$relatedQuery('drinks').insert({ content })
+  const { type, lat, long } = input
+  const { drink } = type
+  const newDrink = await user.$relatedQuery('drinks').insert({
+    drink,
+    coordinates: st.geomFromText(`Point(${lat} ${long})`, 4326),
+    lat,
+    long,
+  })
 
-  if (!drink) {
+  if (!newDrink) {
     throw new Error('Could not add post')
   }
 
   return {
-    drink,
+    newDrink,
   }
 }
 
