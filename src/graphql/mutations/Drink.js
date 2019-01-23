@@ -4,13 +4,13 @@ const { st } = require('../../../knex-postgis')
 // const Drink = require('../../models/Drink')
 
 const createDrink = async (obj, { input }, context) => {
-  // if (!context.user) {
-  //   return {
-  //     error: {
-  //       message: 'User not logged in',
-  //     },
-  //   }
-  // }
+  if (!context.user) {
+    return {
+      error: {
+        message: 'User not logged in',
+      },
+    }
+  }
 
   const user = await User.query()
     .where('id', context.user.id)
@@ -25,9 +25,9 @@ const createDrink = async (obj, { input }, context) => {
   }
 
   const { type, lat, long } = input
-  const { drink } = type
+  // const { drink } = type
   const newDrink = await user.$relatedQuery('drinks').insert({
-    drink,
+    type,
     coordinates: st.geomFromText(`Point(${lat} ${long})`, 4326),
     lat,
     long,

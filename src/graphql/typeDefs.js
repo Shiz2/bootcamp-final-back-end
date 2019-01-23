@@ -5,6 +5,22 @@ module.exports = gql`
     user(id: ID!): UserQueryReturn!
     drink(id: ID!): DrinkQueryReturn!
     drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
+    number(type: DrinkTypes, time: Times): NumberQueryReturn!
+  }
+
+  type NumberQueryReturn {
+    error: Error
+    success: Boolean
+    number: Int
+  }
+
+  enum Times {
+    HOUR
+    DAY
+    WEEK
+    MONTH
+    YEAR
+    ALL
   }
 
   type Mutation {
@@ -48,13 +64,9 @@ module.exports = gql`
   }
 
   input CreateDrinkInput {
-    type: DrinkInput!
+    type: DrinkTypes!
     lat: Float!
     long: Float!
-  }
-
-  input DrinkInput {
-    drink: DrinkTypes!
   }
 
   type User {
