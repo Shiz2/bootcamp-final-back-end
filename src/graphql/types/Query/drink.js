@@ -1,6 +1,6 @@
 const Drink = require('../../../models/Drink')
-const { TimeStamp } = require('../../CustomScalars/timestamp_scalar')
 const { st, knex } = require('../../../../knex-postgis')
+const moment = require('moment')
 
 const DrinkResolver = async (obj, args, context) => {
   // resolver which returns a Drink given its id.
@@ -50,7 +50,41 @@ const DrinksResolver = async (obj, args, context) => {
       queryBuilder.where('type', type)
     }
     if (date) {
-      queryBuilder.where('createdAt', '>=', date)
+      let current = moment()
+
+      if (date === 'HOUR') {
+        current = current
+          .subtract(3600, 'seconds')
+          .toDate()
+          .toISOString()
+      } else if (date === 'DAY') {
+        current = moment()
+          .subtract(1, 'days')
+          .toDate()
+          .toISOString()
+      } else if (date === 'WEEK') {
+        current = moment()
+          .subtract(7, 'days')
+          .toDate()
+          .toISOString()
+      } else if (date === 'MONTH') {
+        current = moment()
+          .subtract(1, 'months')
+          .toDate()
+          .toISOString()
+      } else if (date === 'YEAR') {
+        current = moment()
+          .subtract(1, 'years')
+          .toDate()
+          .toISOString()
+      } else {
+        current = moment()
+          .subtract(10, 'days')
+          .toDate()
+          .toISOString()
+      }
+
+      queryBuilder.where('createdAt', '>=', current)
     }
 
     let usMinLong
@@ -58,27 +92,23 @@ const DrinksResolver = async (obj, args, context) => {
     let usMaxLong
     let usMaxLat
     if (location) {
-      const { minLong, minLat, maxLong, maxLat } = location
-      usMinLong = minLong - 1
-      usMinLat = minLat - 1
-      usMaxLong = maxLong + 1
-      usMaxLat = maxLat + 1
+      const { long, lat } = location
+      const radius = 5000 // in kilometers
+      queryBuilder.whereRaw(
+        `ST_DWithin(coordinates::geography, ST_SetSRID(ST_MakePoint(${long},${lat}),4326)::geography, ${radius})`,
+      )
     }
     if (!location) {
       usMinLong = -125.0011
       usMinLat = 24.9493
       usMaxLong = -66.9326
       usMaxLat = 49.5904
-
-      // usMinLong = -37.199992
-      // usMinLat = -7.504089
-      // usMaxLong = 45.199992
-      // usMaxLat = 79.504089
+      queryBuilder.whereRaw(
+        `drinks.coordinates &&  ST_MakeEnvelope(${usMinLong}, ${usMinLat}, ${usMaxLong}, ${usMaxLat}, 4326)`,
+      )
     }
 
-    const query = queryBuilder.whereRaw(
-      `drinks.coordinates &&  ST_MakeEnvelope(${usMinLong}, ${usMinLat}, ${usMaxLong}, ${usMaxLat}, 4326)`,
-    )
+    const query = queryBuilder
 
     const drinks = await query.orderBy('createdAt')
     return {
@@ -94,7 +124,6 @@ const DrinksResolver = async (obj, args, context) => {
 }
 
 const resolver = {
-  TimeStamp,
   Query: {
     drink: DrinkResolver,
     drinks: DrinksResolver,
