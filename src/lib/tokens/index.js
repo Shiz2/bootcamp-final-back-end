@@ -27,7 +27,7 @@ const decodeToken = async token => {
 
   let decoded
   try {
-    decoded = jwt.decode(token, process.env.TOKEN_SECRET, null, null)
+    decoded = jwt.decode(token, config.tokenSecret, null, null)
   } catch (error) {
     console.error(error)
     throw new Error(
