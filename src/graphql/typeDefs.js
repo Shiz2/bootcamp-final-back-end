@@ -8,17 +8,14 @@ module.exports = gql`
     drinks(
       location: Location
       type: DrinkTypes
-      date: TimeStamp
+      date: Times
     ): DrinksQueryReturn!
-    drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
     number(type: DrinkTypes, time: Times): NumberQueryReturn!
   }
 
   input Location {
-    minLong: String
-    minLat: String
-    maxLong: String
-    maxLat: String
+    long: Float
+    lat: Float
   }
 
   type NumberQueryReturn {
