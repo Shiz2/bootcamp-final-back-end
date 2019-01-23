@@ -63,6 +63,6 @@ graphql.schema.json
 
 .env
 
-# knexfile.js
+knexfile.js
 
-# config/
+config/

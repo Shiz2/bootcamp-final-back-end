@@ -1,10 +1,22 @@
 const gql = require('graphql-tag')
 
 module.exports = gql`
+  scalar TimeStamp
   type Query {
     user(id: ID!): UserQueryReturn!
     drink(id: ID!): DrinkQueryReturn!
-    drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
+    drinks(
+      location: Location
+      type: DrinkTypes
+      date: TimeStamp
+    ): DrinksQueryReturn!
+  }
+
+  input Location {
+    minLong: String
+    minLat: String
+    maxLong: String
+    maxLat: String
   }
 
   type Mutation {

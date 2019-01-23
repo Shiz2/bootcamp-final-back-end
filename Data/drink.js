@@ -13,19 +13,19 @@ casual.define('drink', (lat, long) => ({
     'Kofi',
     'Spencer',
   ]),
-  coordinates: st.geomFromText(`Point(${lat} ${long})`, 4326),
+  coordinates: st.geomFromText(`Point(${long} ${lat})`, 4326),
   lat,
   long,
 }))
 
 const locations = [
-  { lat: 7.504089, long: 37.199992 },
-  { lat: 17.504089, long: 27.199992 },
-  { lat: -7.504089, long: -37.199992 },
-  { lat: 6.504089, long: 27.199992 },
-  { lat: 78.504089, long: 45.199992 },
-  { lat: 3.504089, long: 7.199992 },
-  { lat: 47.504089, long: 22.199992 },
+  { lat: 27.504089, long: -77.199992 },
+  { lat: 37.504089, long: -120.199992 },
+  { lat: 27.504089, long: -97.199992 },
+  { lat: 46.504089, long: -87.199992 },
+  { lat: 48.504089, long: -105.199992 },
+  { lat: 33.504089, long: -107.199992 },
+  { lat: 47.504089, long: -122.199992 },
 ]
 
 const drinks = locations.map(loc => casual.drink(loc.lat, loc.long))
