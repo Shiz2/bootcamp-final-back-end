@@ -5,9 +5,7 @@ module.exports = gql`
     user(id: ID!): UserQueryReturn!
     drink(id: ID!): DrinkQueryReturn!
     drinks(
-      # location: Location
-      lat: Float
-      long: Float
+      location: Location
       type: DrinkTypes
       date: Times
       group: Groups
@@ -101,6 +99,8 @@ module.exports = gql`
     userId: ID!
     createdAt: String
     coordinates: String
+    lat: Float!
+    long: Float!
   }
 
   type LoginReturn {
@@ -119,6 +119,7 @@ module.exports = gql`
     WINE
     LIQUOR
     MIXED
+    ALL
   }
 
   type DrinkType {
