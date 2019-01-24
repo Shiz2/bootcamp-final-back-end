@@ -92,7 +92,7 @@ const DrinksResolver = async (obj, args, context) => {
     let usMaxLong
     let usMaxLat
     if (location) {
-      // const { long, lat } = location
+      const { long, lat } = location
       const radius = 5000 // in kilometers
       queryBuilder.whereRaw(
         `ST_DWithin(coordinates::geography, ST_SetSRID(ST_MakePoint(${long},${lat}),4326)::geography, ${radius})`,

@@ -17,10 +17,8 @@ module.exports = gql`
   }
 
   input Location {
-    minLong: String
-    minLat: String
-    maxLong: String
-    maxLat: String
+    long: Float
+    lat: Float
   }
 
   type NumberQueryReturn {
