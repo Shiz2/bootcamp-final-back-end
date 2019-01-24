@@ -8,8 +8,8 @@ const NumberResolver = async (obj, args, context) => {
     if (!context.user) {
       throw new Error('User is not logged in')
     }
-
-    const { type, time } = args
+    const { input = {} } = args
+    const { type, time } = input
 
     let current = moment()
 

@@ -41,7 +41,8 @@ const DrinksResolver = async (obj, args, context) => {
     if (!context.user) {
       throw new Error('User is not logged in')
     }
-    const { lat, long type, date } = args
+    const { input = {} } = args
+    const { location, type, date } = input
     const queryBuilder = knex('drinks')
       .select('id', st.asText('coordinates'), 'type', 'createdAt')
       .as('coordinates')
