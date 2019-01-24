@@ -110,8 +110,8 @@ module.exports = gql`
     type: String!
     userId: ID!
     createdAt: String
-    lat: Int
-    long: Int
+    lat: String
+    long: String
   }
 
   type LoginReturn {

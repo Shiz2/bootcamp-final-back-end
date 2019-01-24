@@ -28,7 +28,7 @@ const createDrink = async (obj, { input }, context) => {
   // const { drink } = type
   const newDrink = await user.$relatedQuery('drinks').insert({
     type,
-    coordinates: st.geomFromText(`Point(${lat} ${long})`, 4326),
+    coordinates: st.geomFromText(`Point(${long} ${lat})`, 4326),
     lat,
     long,
   })

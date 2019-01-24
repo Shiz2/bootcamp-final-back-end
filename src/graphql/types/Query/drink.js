@@ -1,4 +1,5 @@
 const Drink = require('../../../models/Drink')
+const Friend = require('../../../models/Friend')
 const { st, knex } = require('../../../../knex-postgis')
 const moment = require('moment')
 
@@ -50,7 +51,7 @@ const DrinksResolver = async (obj, args, context) => {
     }
 
     const { input = {} } = args
-    const { location, type, date } = input
+    const { location, type, date, group } = input
     const queryBuilder = knex('drinks').select(
       'id',
       st.x('coordinates').as('long'),
@@ -62,6 +63,20 @@ const DrinksResolver = async (obj, args, context) => {
     if (type) {
       queryBuilder.where('type', type)
     }
+
+    if (group) {
+      // add new filter by type of users
+      if (group === 'ME') {
+        queryBuilder.where('userId', context.user.id)
+      } else if (group === 'FRIENDS') {
+        const friendsObjs = await Friend.query()
+          .select('following')
+          .where('follower', context.user.id)
+        const friendsIds = friendsObjs.map(friend => friend.following)
+        queryBuilder.whereIn('userId', friendsIds)
+      }
+    }
+
     if (date) {
       let current = moment()
 
