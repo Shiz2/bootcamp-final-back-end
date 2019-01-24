@@ -15,6 +15,10 @@ const names = [
   'Elizabeth',
   'Kofi',
   'Spencer',
+  'Sela',
+  'Addison',
+  'Owen',
+  'Anthony',
 ]
 
 const users = names.map(name => casual.user(name))

@@ -23,8 +23,8 @@ const addFriend = async (obj, { email }, context) => {
   }
   console.log(following.id)
   console.log(following)
-  //const friend = await follower.$relatedQuery('friends').insert(following)
-  const friend = await follower.$setRelated('friends', following)
+  const friend = await follower.$relatedQuery('friends').insert(following)
+  // const friend = await follower.$setRelated('friends', following)
 
   console.log(friend)
 

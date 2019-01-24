@@ -106,6 +106,8 @@ module.exports = gql`
     userId: ID!
     createdAt: String
     coordinates: String
+    lat: Float!
+    long: Float!
   }
 
   type LoginReturn {
@@ -124,6 +126,7 @@ module.exports = gql`
     WINE
     LIQUOR
     MIXED
+    ALL
   }
 
   type DrinkType {

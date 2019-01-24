@@ -12,22 +12,27 @@ casual.define('drink', (lat, long) => ({
     'Elizabeth',
     'Kofi',
     'Spencer',
+    'Sela',
+    'Addison',
+    'Owen',
+    'Anthony',
   ]),
-  coordinates: st.geomFromText(`Point(${long} ${lat})`, 4326),
   lat,
   long,
+  coordinates: st.geomFromText(`Point(${long} ${lat})`, 4326),
 }))
 
-const locations = [
-  { lat: 27.504089, long: -77.199992 },
-  { lat: 37.504089, long: -120.199992 },
-  { lat: 27.504089, long: -97.199992 },
-  { lat: 46.504089, long: -87.199992 },
-  { lat: 48.504089, long: -105.199992 },
-  { lat: 33.504089, long: -107.199992 },
-  { lat: 47.504089, long: -122.199992 },
-]
+casual.define('coordinates', number => ({
+  lat: casual.double((from = 24.9493), (to = 49.5904)),
+  long: casual.double((from = -125.0011), (to = -66.9326)),
+}))
 
-const drinks = locations.map(loc => casual.drink(loc.lat, loc.long))
+const coordinates = []
+const drinks = []
+
+for (let i = 0; i < 1000; i++) {
+  coordinates.push(casual.coordinates(i))
+  drinks.push(casual.drink(coordinates[i].lat, coordinates[i].long))
+}
 
 module.exports = drinks

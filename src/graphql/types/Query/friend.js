@@ -1,6 +1,4 @@
-const Drink = require('../../../models/Drink')
-
-const NumberResolver = async (obj, args, context) => {
+const FriendResolver = async (obj, args, context) => {
   // resolver which returns a Drink given its id.
   try {
     // check if user is logged in
@@ -12,10 +10,15 @@ const NumberResolver = async (obj, args, context) => {
 
     const friend = await user.$relatedQuery('friends')
 
-    return {
-      success: true,
-      friend,
+    if (!friend) {
+      throw new Error('query failed')
     }
+
+    // return {
+    //   // success: true,
+    //   friend,
+    // }
+    return friend
   } catch (error) {
     return {
       error: { message: error.message },
@@ -26,7 +29,7 @@ const NumberResolver = async (obj, args, context) => {
 
 const resolver = {
   Query: {
-    number: NumberResolver,
+    friend: FriendResolver,
   },
 }
 
