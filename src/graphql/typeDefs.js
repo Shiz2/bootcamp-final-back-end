@@ -1,17 +1,19 @@
 const gql = require('graphql-tag')
 
 module.exports = gql`
-  scalar TimeStamp
   type Query {
     user(id: ID!): UserQueryReturn!
     drink(id: ID!): DrinkQueryReturn!
     drinks(
-      location: Location
+      # location: Location
+      lat: Float
+      long: Float
       type: DrinkTypes
-      date: TimeStamp
+      date: Times
+      group: Groups
     ): DrinksQueryReturn!
-    drinks(location: String, type: DrinkTypes, date: String): DrinksQueryReturn!
     number(type: DrinkTypes, time: Times): NumberQueryReturn!
+    friend: [User!]
   }
 
   input Location {
@@ -27,6 +29,11 @@ module.exports = gql`
     number: Int
   }
 
+  enum Groups {
+    ALL
+    FRIENDS
+    ME
+  }
   enum Times {
     HOUR
     DAY
@@ -40,6 +47,7 @@ module.exports = gql`
     createUser(input: CreateUserInput!): LoginReturn!
     createDrink(input: CreateDrinkInput!): CreateDrinkReturn!
     loginUser(input: LoginInput!): LoginReturn!
+    addFriend(email: String!): UserQueryReturn!
   }
 
   type UserQueryReturn {

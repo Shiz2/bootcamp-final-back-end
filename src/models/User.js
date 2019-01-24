@@ -17,6 +17,18 @@ class User extends BaseModel {
           to: 'drinks.userId',
         },
       },
+      friends: {
+        relation: this.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'friends.follower',
+            to: 'friends.following',
+          },
+          to: 'users.id',
+        },
+      },
     }
   }
 }
