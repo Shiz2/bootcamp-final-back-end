@@ -4,14 +4,21 @@ module.exports = gql`
   type Query {
     user(id: ID!): UserQueryReturn!
     drink(id: ID!): DrinkQueryReturn!
-    drinks(
-      location: Location
-      type: DrinkTypes
-      date: Times
-      group: Groups
-    ): DrinksQueryReturn!
-    number(type: DrinkTypes, time: Times): NumberQueryReturn!
+    drinks(input: drinksQuery): DrinksQueryReturn!
+    number(input: numberQuery): NumberQueryReturn!
     friend: [User!]
+  }
+
+  input drinksQuery {
+    location: Location
+    type: DrinkTypes
+    date: Times
+    group: Groups
+  }
+
+  input numberQuery {
+    type: DrinkTypes
+    time: Times
   }
 
   input Location {
