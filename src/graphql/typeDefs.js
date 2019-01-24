@@ -3,10 +3,10 @@ const gql = require('graphql-tag')
 module.exports = gql`
   type Query {
     user(id: ID!): UserQueryReturn!
+    friends: [User]!
     drink(id: ID!): DrinkQueryReturn!
     drinks(input: drinksQuery): DrinksQueryReturn!
     number(input: numberQuery): NumberQueryReturn!
-    friend: [User!]
   }
 
   input drinksQuery {
@@ -50,7 +50,11 @@ module.exports = gql`
     createUser(input: CreateUserInput!): LoginReturn!
     createDrink(input: CreateDrinkInput!): CreateDrinkReturn!
     loginUser(input: LoginInput!): LoginReturn!
-    addFriend(email: String!): UserQueryReturn!
+    addFriend(input: FriendInput!): UserQueryReturn!
+  }
+
+  input FriendInput {
+    email: String!
   }
 
   type UserQueryReturn {
@@ -98,6 +102,7 @@ module.exports = gql`
     name: String!
     email: String!
     drinks: [Drink]!
+    friends: [User]!
   }
 
   type Drink {
@@ -105,7 +110,8 @@ module.exports = gql`
     type: String!
     userId: ID!
     createdAt: String
-    coordinates: String
+    lat: Int
+    long: Int
   }
 
   type LoginReturn {
