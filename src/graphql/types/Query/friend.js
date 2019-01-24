@@ -1,35 +1,37 @@
-const FriendResolver = async (obj, args, context) => {
-  // resolver which returns a Drink given its id.
+const User = require('../../../models/User')
+const Friend = require('../../../models/Friend.js')
+
+const friendsResolver = async (obj, { id }, context) => {
   try {
     // check if user is logged in
     if (!context.user) {
-      throw new Error('User is not logged in')
+      throw new Error('User is not logged in or token has expired')
+    }
+    const user = await User.query().findById(id)
+    if (!user) {
+      throw new Error('Invalid ID provided')
     }
 
-    const { user } = context
-
-    const friend = await user.$relatedQuery('friends')
-
-    if (!friend) {
-      throw new Error('query failed')
+    const friends = await User.findByIds(
+      Friend.query()
+        .select('following')
+        .where('follower', context.user.id),
+    )
+    return {
+      success: true,
+      friends,
     }
-
-    // return {
-    //   // success: true,
-    //   friend,
-    // }
-    return friend
   } catch (error) {
     return {
-      error: { message: error.message },
       success: false,
+      error: { message: error.message },
     }
   }
 }
 
 const resolver = {
   Query: {
-    friend: FriendResolver,
+    friends: friendsResolver,
   },
 }
 

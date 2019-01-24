@@ -33,6 +33,7 @@ const resolver = {
   },
   User: {
     drinks: async user => user.$relatedQuery('drinks'),
+    friends: async user => user.$relatedQuery('friends'),
   },
 }
 

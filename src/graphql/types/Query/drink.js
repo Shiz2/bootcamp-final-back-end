@@ -13,6 +13,13 @@ const DrinkResolver = async (obj, args, context) => {
     }
     const { id } = args
     const drink = await Drink.query()
+      .select(
+        'id',
+        st.x('coordinates').as('long'),
+        st.y('coordinates').as('lat'),
+        'type',
+        'createdAt',
+      )
       .findById(id)
       .limit(1)
 
@@ -44,10 +51,13 @@ const DrinksResolver = async (obj, args, context) => {
 
     const { input = {} } = args
     const { location, type, date } = input
-
-    const queryBuilder = knex('drinks')
-      .select('id', st.asText('coordinates'), 'type', 'createdAt')
-      .as('coordinates')
+    const queryBuilder = knex('drinks').select(
+      'id',
+      st.x('coordinates').as('long'),
+      st.y('coordinates').as('lat'),
+      'type',
+      'createdAt',
+    )
 
     if (type) {
       queryBuilder.where('type', type)
