@@ -60,7 +60,7 @@ const DrinksResolver = async (obj, args, context) => {
       'createdAt',
     )
 
-    if (type) {
+    if (type && type !== 'ALL') {
       queryBuilder.where('type', type)
     }
 

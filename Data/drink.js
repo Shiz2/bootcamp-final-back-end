@@ -23,8 +23,8 @@ casual.define('drink', (lat, long) => ({
 }))
 
 casual.define('coordinates', number => ({
-  lat: casual.double((from = 24.9493), (to = 49.5904)),
-  long: casual.double((from = -125.0011), (to = -66.9326)),
+  lat: casual.double((from = 42.367057), (to = 42.382021)),
+  long: casual.double((from = -71.134035), (to = -71.101036)),
 }))
 
 const coordinates = []
